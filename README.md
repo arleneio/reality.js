@@ -8,6 +8,8 @@
     <a href="https://opensource.org/licenses/MIT"><img src="https://realityscript.io/images/license.svg" alt="MIT License"></a>
 </p>
 
+[![](https://data.jsdelivr.com/v1/package/gh/arleneio/reality.js/badge)](https://www.jsdelivr.com/package/gh/arleneio/reality.js)
+
 
 ## Intro: 
 
