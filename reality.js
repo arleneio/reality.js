@@ -6,15 +6,15 @@
 */
 
 // String variables (default: English)
-var realityTitle = "Tap <strong>image</strong> icon for <strong>AR</strong>";
-var realityTitle_noAr = "Use a mobile device for <strong>AR</strong>";
-var realitySubtitle_ios = "ARKit required";
-var realitySubtitle_android = "ARCore or ARKit required";
-var realitySubtitle_noAr = "ARKit or ARCore required";
-var realityEditorialCopy = "Editorial usage only";
+const realityTitle = "Tap <strong>image</strong> icon for <strong>AR</strong>";
+const realityTitle_noAr = "Use a mobile device for <strong>AR</strong>";
+const realitySubtitle_ios = "ARKit required";
+const realitySubtitle_android = "ARCore or ARKit required";
+const realitySubtitle_noAr = "ARKit or ARCore required";
+const realityEditorialCopy = "Editorial usage only";
 
 // Set an empty reality object 
-var realityObject = {
+const realityObject = {
 	title: "",
 	subtitle: "",
 	modelTitle: "",
@@ -23,10 +23,10 @@ var realityObject = {
 };
 
 // Some global vars
-var oS;
+let oS;
 
 // An array for storing the names (strings) of any scripts that were needed and imported 
-var scripts = [];
+let scripts = [];
 
 // Get the mobile OS
 function getMobileOperatingSystem() {
@@ -104,22 +104,23 @@ function realitySetup(){
 	
 	// Get the reality-tags 
 	const realityElements = document.getElementsByTagName("reality");
+
 	
 	// Loop through the reality-tag elements
 	for(let i = 0; i < realityElements.length; i++){
 		
 		// Get the reality-tag element
-		var realityElement = realityElements[i];
+		const realityElement = realityElements[i];
 		
 		// Check if the element requires any other scripts 
 		checkScriptRequirementsForElement(realityElement);
 		
 		// Set some style options for the HTML preview box
-		var boxWidth = '300px';
-		var boxHeight = '300px';
-		var boxBorderRadius = '20px';
-		var boxBackgroundColor = 'transparent'; // '#222';
-		var boxMargin = "20px";
+		let boxWidth = '300px';
+		let boxHeight = '300px';
+		let boxBorderRadius = '20px';
+		let boxBackgroundColor = 'transparent'; // '#222';
+		let boxMargin = "20px";
 		
 		// Configure some quick-sizing defaults
 		if(realityElement.getAttribute('size') && realityElement.getAttribute('size') === "small"){
@@ -191,7 +192,7 @@ function realitySetup(){
 		boxHeight = ( ((parseInt(boxHeight, 10)) - ( parseInt(boxMargin, 10) * 2)) ) + 'px';
 		
 		// Create a reality-preview element
-		var realityPreviewElement = document.createElement('reality-preview');
+		const realityPreviewElement = document.createElement('reality-preview');
 
 		const slotsElements = Array.from(realityElement.children).filter(child => child.getAttribute('slot'));
 		// console.log('Slots', slotsElements);
@@ -208,7 +209,7 @@ function realitySetup(){
 			
 			// If 'reality dev' wants to display a 3D preview on iOS before entering AR
 			// Note: Expecting support for a native 3D preview by default on iOS in the near future 
-			var previewModelUrl;
+			let previewModelUrl;
 			
 			// If the folder-path convention is used
 			if(realityElement.getAttribute('src') && realityElement.getAttribute('src') !== ""){
@@ -585,20 +586,24 @@ function realitySetup(){
 			realityElementTitleContainer.appendChild(realityElementSubtitleLabel);
 			realityElement.appendChild(realityElementTitleContainer);
 		}
-	}
+
+		// Remove blue line when user interact with the model
+		const mv = realityElement.querySelector('model-viewer');
+		if (mv) {
+			mv.addEventListener('scene-graph-ready', function() {
+				const ui = document.querySelector('model-viewer').shadowRoot.querySelector('.userInput');
+				ui.style.outline = 'none'
+			})
+		}
+	
+	}	// end loop for all reality elements available
 
 	window.dispatchEvent( new CustomEvent('reality-loaded') );
-
-	// Remove blue line when user interact with the model
-	realityElement.querySelector('model-viewer').addEventListener('scene-graph-ready', function() {
-		const ui = document.querySelector('model-viewer').shadowRoot.querySelector('.userInput');
-		ui.style.outline = 'none'
-	})
 }
 
 // Let's go!
 window.onload = function () {
-	console.log('Loading reality script!');
+	// console.log('Loading reality script!');
 	// Begin setup:
 	realitySetup();
 };
