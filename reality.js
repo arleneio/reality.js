@@ -6,25 +6,12 @@
 */
 
 // String variables (default: English)
-var realityTitle = "Tap <strong>cube</strong> icon for <strong>AR</strong>";
+var realityTitle = "Tap <strong>image</strong> icon for <strong>AR</strong>";
 var realityTitle_noAr = "Use a mobile device for <strong>AR</strong>";
 var realitySubtitle_ios = "ARKit required";
 var realitySubtitle_android = "ARCore or ARKit required";
 var realitySubtitle_noAr = "ARKit or ARCore required";
 var realityEditorialCopy = "Editorial usage only";
-
-// Localization option: Set localization strings for other language options 
-/*
-var local = "?";
-if(local === "?"){
-	realityTitle = "";
-	realityTitle_noAr = "";
-	realitySubtitle_ios = "=";
-	realitySubtitle_android = "";
-	realitySubtitle_noAr = "";
-	realityEditorialCopy = "";
-}
-*/
 
 // Set an empty reality object 
 var realityObject = {
@@ -71,7 +58,7 @@ function getScripts(scriptName){
 	if(scriptName === "Model-Viewer"){
 		
 		// Current Model-Viewer version supported 
-		var modelViewerVersion = '1.1.0'; // 0.10.0
+		var modelViewerVersion = '1.1.0';
 
 		// Get Model-Viewer/Scene-Viewer (needed for access to Android's ARCore web API)
 		if(scripts.indexOf(scriptName) < 0){
@@ -601,6 +588,12 @@ function realitySetup(){
 	}
 
 	window.dispatchEvent( new CustomEvent('reality-loaded') );
+
+	// Remove blue line when user interact with the model
+	realityElement.querySelector('model-viewer').addEventListener('scene-graph-ready', function() {
+		const ui = document.querySelector('model-viewer').shadowRoot.querySelector('.userInput');
+		ui.style.outline = 'none'
+	})
 }
 
 // Let's go!
