@@ -97,11 +97,16 @@ function checkScriptRequirementsForElement(realityElement){
 }
 
 // Setup the components
+var realityStarted = false;
 function realitySetup(){
+	if (realityStarted) {
+		return;
+	}
+	realityStarted = true
 	
 	// Detect the device OS
 	oS = getMobileOperatingSystem();
-	
+
 	// Get the reality-tags 
 	const realityElements = document.getElementsByTagName("reality");
 
